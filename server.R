@@ -1,9 +1,4 @@
-##This code gets run once
 library(shiny)
-##library(ggplot2)
-##library(devtools)
-
-dataSet <- read.csv("NPS_Data.csv")
 
 scoreNPS <- function(respondents,detractors,passives,promoters){
     
@@ -14,19 +9,14 @@ scoreNPS <- function(respondents,detractors,passives,promoters){
     }
     
     else {
-        
+        ##NPS Calculations        
         ((promoters/respondents)-(detractors/respondents))*100
     }
     
 }
 
-##This gets run every time 
 shinyServer(
     function(input, output) {
-        ##output$oid1 <- "Yes"
-        ##output$oid2 <- "No"
-        ##output$Error
-        
         
         output$NPS <- renderText({
             
@@ -44,23 +34,10 @@ shinyServer(
             
             BarChartData <- c(input$detractors*100/input$respondents,input$passives*100/input$respondents,input$promoters*100/input$respondents)
                 
-            barplot(BarChartData,main="Distribution of Customer Types",col="lightblue",names.arg=c("Detractors","Passives","Promoters"))
+            barplot(BarChartData,main="Distribution of Customer Types",col="lightblue",names.arg=c("Detractors","Passives","Promoters"),ylab="%")
             
             })
             
-        ##}
-        
-        output$oid1 <- renderPrint({input$id1})
-        output$oid2 <- renderPrint({input$id2})
-        
-        output$newBarChart2 <- renderPlot({
-            
-            
-            
-            
-        })
-        
-        
-        }
+    }
     
 )
